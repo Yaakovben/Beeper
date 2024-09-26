@@ -2,6 +2,7 @@ import exp, { Request, Response, Router } from 'express'
 import beeperService from '../services/beeperService'
 import Beeper from '../models/Beeper'
 import newBeeperDTO from '../DTO/newBeeper'
+import updateBeeperDTO from '../DTO/updateBeeper'
 
 
 const router:Router = exp.Router()
@@ -18,11 +19,11 @@ router.post('/',async(
         if(result){
             res.status(200).json({
                 err:false,
-                message:'Post saved sucssesfuly',
+                message:'Beeper saved sucssesfuly',
                 Date:undefined
             })
         }else{
-            throw new Error("Can't Save New Post to the file");
+            throw new Error("Can't Save New Beeper to the file");
 
         }
 
@@ -47,12 +48,12 @@ router.get('/',async(
         if(result){
             res.status(200).json({
                 err:false,
-                message:'This is all Posts',
+                message:'This is all Beepers',
                 Data:result,
             })
             
         }else{
-            throw new Error("Can't give the posts");
+            throw new Error("Can't give the Beeper");
         }
     }catch(err){
         res.status(400).json({
@@ -74,11 +75,11 @@ router.get('/:id',async(
         if(result){
             res.status(200).json({
                 err:false,
-                message:'This is the Post',
+                message:'This is the Beeper',
                 Date:result
             })
         }else{
-            throw new Error("Can't ");
+            throw new Error("Can't give you Beeper ");
 
         }
     
@@ -104,7 +105,7 @@ router.delete('/:id',async(
         await beeperService.removeBeeperById(+req.params.id)
         res.status(200).json({
             err:false,
-            message:'This is very GOOD',
+            message:'The Beeper deleted sucssesfuly',
             Date: deletPost
         })
         
@@ -146,17 +147,35 @@ router.get('/status/:status', async (
 });
 
 
+// עריכת פיבר
+router.put('/status/:id/', async (
+    req: Request<any, any, any, updateBeeperDTO>, 
+  res: Response
+): Promise<void> => {
+  try {
+      const updatedBeeper = await beeperService.updateBeeper(req.body,+req.params.id);
 
-
-
-
-
-
-
-
-
-
-
+      if (updatedBeeper) {
+          res.status(200).json({
+              err: false,
+              message: ' The Beepers updated successfully',
+              Data: updatedBeeper
+          });
+      } else {
+          res.status(404).json({
+              err: true,
+              message: 'Beeper not found or you dosent enter location',
+              Data: null
+          });
+      }
+  } catch (error) {
+      res.status(400).json({
+          err: true,
+          message: 'No good',
+          Data: null
+      });
+  }
+});
 
 
 
