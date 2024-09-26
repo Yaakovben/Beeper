@@ -1,16 +1,16 @@
 import exp, {Express} from 'express'
 //
 import 'dotenv/config'
-import authController from './controllers/beeperController'
 
+import beeperController from './controllers/beeperController'
 
 const app:Express = exp()
 
-
 app.use(exp.json())
 
-app.use('/auth',authController)
 
+app.use('/api/beepers',beeperController)
+   
 
 
    
