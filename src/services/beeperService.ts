@@ -57,6 +57,20 @@ export default class BeeperService {
             
         }      
     }
+
+    //  פונקציה לחיפוש ביפר לפי הסטטוס שלו
+public static async getBeeperByStatus(status: string): Promise<Beeper[]> {
+    const beepers: Beeper[] = await getFileData<Beeper>() as Beeper[];
+    const filteredBeepers = beepers.filter(beeper => beeper.status === status);
+    return filteredBeepers;
+}
+
+
+
+
+
+
+
     
 
 

@@ -119,7 +119,36 @@ router.delete('/:id',async(
     }
 })
 
-// חיפוש ביפר לפי
+// חיפוש ביפר לפי סטטוס שלו
+router.get('/status/:status', async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const result = await beeperService.getBeeperByStatus(req.params.status);
+        
+        if (result.length > 0) {
+            res.status(200).json({
+                err: false,
+                message: 'This is the Beepers',
+                data: result
+            });
+        } else {
+            throw new Error("No  found");
+        }
+    } catch (err) {
+        res.status(400).json({
+            err: true,
+            message: 'This NO good',
+            data: null
+        });
+    }
+});
+
+
+
+
+
 
 
 
