@@ -3,8 +3,6 @@ import beeperService from '../services/beeperService'
 import Beeper from '../models/Beeper'
 import newBeeperDTO from '../DTO/newBeeper'
 import updateBeeperDTO from '../DTO/updateBeeper'
-
-
 const router:Router = exp.Router()
 
 // יצירת ביפר חדש
@@ -13,9 +11,7 @@ router.post('/',async(
     res:Response
 ):Promise<void> =>{
     try{        
-      
-      const result = await beeperService.createNewBeeper(req.body)
-                
+      const result = await beeperService.createNewBeeper(req.body)        
         if(result){
             res.status(200).json({
                 err:false,
@@ -24,19 +20,15 @@ router.post('/',async(
             })
         }else{
             throw new Error("Can't Save New Beeper to the file");
-
         }
-
     }catch(err){
         res.status(400).json({
             err:true,
             message:'This NO good',
             data:null
         })
-
     }
 })
-
 
 //קבלת כל הפיברים
 router.get('/',async(
@@ -50,8 +42,7 @@ router.get('/',async(
                 err:false,
                 message:'This is all Beepers',
                 Data:result,
-            })
-            
+            })     
         }else{
             throw new Error("Can't give the Beeper");
         }
@@ -63,7 +54,6 @@ router.get('/',async(
         })
     }  
 })
-
 
 // ID חיפוש ביפר לפי 
 router.get('/:id',async(
@@ -80,7 +70,6 @@ router.get('/:id',async(
             })
         }else{
             throw new Error("Can't give you Beeper ");
-
         }
     
     }catch(err){
@@ -89,13 +78,10 @@ router.get('/:id',async(
             message:'This NO good',
             data:"NotFound"
         })
-
     }
 })
 
-
 //ID מחיקת ביפר לפי 
-
 router.delete('/:id',async(
     req:Request,
     res:Response
@@ -109,14 +95,12 @@ router.delete('/:id',async(
             Date: deletPost
         })
         
-
     }catch(err){
         res.status(400).json({
             err:true,
             message:'This NO good',
             data:null
         })
-
     }
 })
 
@@ -145,7 +129,6 @@ router.get('/status/:status', async (
         });
     }
 });
-
 
 // עריכת פיבר
 router.put('/status/:id/', async (
@@ -176,8 +159,5 @@ router.put('/status/:id/', async (
       });
   }
 });
-
-
-
 
 export default router

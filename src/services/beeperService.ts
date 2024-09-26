@@ -29,17 +29,12 @@ export default class BeeperService {
         return posts
     }
 
-
-
     //ID קבלת ביפר לפי 
     public static async getBeeperById(postId:number):Promise<Beeper>{  
         let posts:Beeper[]  = await getFileData<Beeper>() as Beeper[]
         let post:Beeper = posts.find(p => p.id === postId) as Beeper
         return post
     }
-
-
-
 
     // מחיקת ביפר
     public static async removeBeeperById(postId:number):Promise<boolean>{
@@ -59,10 +54,6 @@ export default class BeeperService {
         const filteredBeepers = beepers.filter(beeper => beeper.status === status);
         return filteredBeepers;
     }
-
-
-
-
 
 //ID פונקציה לעדכון הסטטוס והמיקום של ביפר לפי 
     public static async updateBeeper(body:updateBeeperDTO,beeperId:number): Promise<Beeper | null> {
@@ -102,15 +93,14 @@ export default class BeeperService {
         if(beeper.status == enu.deployed){
             console.log(beeperId);
             console.log(beeper.status);
-            setTimeout(async () => {
+            await setTimeout(async () => {
                 beeper.status = enu.detonated;
                 await saveFileData<Beeper>(beepers); 
-            }, 10000);
-            
+            }, 10000);      
             beeper.explosionAt = new Date()     
+            console.log(beeper.status);
         }
          await saveFileData<Beeper>(beepers)
-         console.log(beeper.status);
          return beeper
     }
 }
