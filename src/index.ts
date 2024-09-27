@@ -15,7 +15,8 @@ app.use('/api/beepers',beeperController)
 
    
 
-app.listen(process.env.PORT,():void => console.log(`See you at http:localhost:${process.env.PORT}`));
+app.listen(process.env.PORT,():void => console.log(`See you at http://localhost:${process.env.PORT}/api/beepers`));
 
 
 
+   

@@ -3,6 +3,7 @@ import beeperService from '../services/beeperService'
 import Beeper from '../models/Beeper'
 import newBeeperDTO from '../DTO/newBeeper'
 import updateBeeperDTO from '../DTO/updateBeeper'
+import { stringify } from 'uuid'
 const router:Router = exp.Router()
 
 // יצירת ביפר חדש
@@ -12,19 +13,15 @@ router.post('/',async(
 ):Promise<void> =>{
     try{        
       const result = await beeperService.createNewBeeper(req.body)        
-        if(result){
             res.status(200).json({
                 err:false,
                 message:'Beeper saved sucssesfuly',
-                Date:undefined
+                Data:result
             })
-        }else{
-            throw new Error("Can't Save New Beeper to the file");
-        }
-    }catch(err){
+    }catch(err:any){
         res.status(400).json({
             err:true,
-            message:'This NO good',
+            message: err.message  || 'The system detects an error',
             data:null
         })
     }
@@ -44,12 +41,12 @@ router.get('/',async(
                 Data:result,
             })     
         }else{
-            throw new Error("Can't give the Beeper");
+            throw new Error("can't give you the Beepers");
         }
     }catch(err){
         res.status(400).json({
             err:true,
-            message:'This NO good',
+            message:'The system detects an error',
             data:null
         })
     }  
@@ -62,21 +59,16 @@ router.get('/:id',async(
 ):Promise<void> =>{
     try{
         const result = await beeperService.getBeeperById(+req.params.id)
-        if(result){
             res.status(200).json({
                 err:false,
                 message:'This is the Beeper',
-                Date:result
+                Data:result
             })
-        }else{
-            throw new Error("Can't give you Beeper ");
-        }
-    
-    }catch(err){
+    }catch(err:any){
         res.status(400).json({
             err:true,
-            message:'This NO good',
-            data:"NotFound"
+            message: err.message ||'The system detects an error',
+            data:null
         })
     }
 })
@@ -95,10 +87,10 @@ router.delete('/:id',async(
             Date: deletPost
         })
         
-    }catch(err){
+    }catch(err:any){
         res.status(400).json({
             err:true,
-            message:'This NO good',
+            message:err.message ||'The system detects an error',
             data:null
         })
     }
@@ -110,21 +102,17 @@ router.get('/status/:status', async (
     res: Response
 ): Promise<void> => {
     try {
-        const result = await beeperService.getBeeperByStatus(req.params.status);
-        
-        if (result.length > 0) {
+        const result = await beeperService.getBeeperByStatus(req.params.status); 
             res.status(200).json({
                 err: false,
                 message: 'This is the Beepers',
                 data: result
             });
-        } else {
-            throw new Error("No  found");
-        }
-    } catch (err) {
+       
+    } catch (err:any) {
         res.status(400).json({
             err: true,
-            message: 'This NO good',
+            message: err.message || 'The system detects an error',
             data: null
         });
     }
@@ -137,24 +125,16 @@ router.put('/status/:id/', async (
 ): Promise<void> => {
   try {
       const updatedBeeper = await beeperService.updateBeeper(req.body,+req.params.id);
-
-      if (updatedBeeper) {
           res.status(200).json({
               err: false,
-              message: ' The Beepers updated successfully',
+              message: 'The Beepers updated successfully',
               Data: updatedBeeper
           });
-      } else {
-          res.status(404).json({
-              err: true,
-              message: 'Beeper not found or you dosent enter location',
-              Data: null
-          });
-      }
-  } catch (error) {
+     
+  } catch (err:any) {
       res.status(400).json({
           err: true,
-          message: 'No good',
+          message:err.message ||'The system detects an error',
           Data: null
       });
   }
